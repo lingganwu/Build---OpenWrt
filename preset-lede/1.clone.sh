@@ -12,3 +12,6 @@ mkdir $SUPPLY_DIR && cd $SUPPLY_DIR
 git clone --depth 1 https://github.com/kenzok8/openwrt-packages.git
 git clone --depth 1 https://github.com/kenzok8/small.git
 git clone --depth 1 https://github.com/Ausaci/luci-app-nat6-helper.git
+git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall-packages.git pw-dependencies
+git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall.git && mv openwrt-passwall/luci-app-passwall ./ && rm -rf openwrt-passwall
+git clone --depth 1 https://github.com/gdy666/luci-app-lucky.git
