@@ -1,13 +1,9 @@
 #
 # Copyright (C) 2022-2024 hugcabbage <fengsongtianxia@gmail.com>
 #
-# This is free software, licensed under the MIT License.
+# Optimized for Redmi AX6000 (OpenWrt Official) by AI
 #
-# <https://github.com/hugcabbage/shared-lede>
-#
-# The firmware code comes from openwrt
-#
-name: build openwrt
+name: Build Redmi AX6000 (openwrt)
 
 on:
   workflow_dispatch:
@@ -19,34 +15,33 @@ on:
         options:
           - 'xiaomi-ax6000-stock'
           - 'xiaomi-ax6000-ubootmod'
-          - 'other'
       branch:
         description: '选择版本'
         required: true
         type: choice
         options:
           - 'openwrt-23.05'
+          - 'master'
           - 'openwrt-22.03'
           - 'openwrt-21.02'
-          - 'master'
       latest_tag:
-        description: '切换到最近稳定版本(master版本无)'
+        description: '切换到最近稳定版本'
         required: false
         type: boolean
       lan_ipad:
-        description: '设置LAN口IP地址(会覆盖modify脚本中的设置)'
+        description: '设置LAN口IP地址'
         required: false
-        default: ''
+        default: '192.168.1.1'
         type: string
       login_pwd:
-        description: '设置初始登陆密码(会覆盖modify脚本中的设置)'
+        description: '设置初始登陆密码'
         required: false
-        default: ''
+        default: 'password'
         type: string
       record:
-        description: '输入版本描述'     
+        description: '输入版本描述'      
         required: false
-        default: '升级内容：内核升级，更新应用版本'
+        default: 'AX6000 官方源编译'
         type: string
       release:
         description: '上传到release'
@@ -76,14 +71,24 @@ jobs:
         with:
           include_inputs: login_pwd
 
-      - name: Display initial disk space
-        run: |
-          df -h
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
           path: ${{ env.EXTRA_STR }}
+
+      # =======================================================
+      # 🚀 必须保留：清理磁盘空间 (解决 No space left 报错)
+      # =======================================================
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
 
       - name: Prepare environments
         env:
@@ -103,6 +108,7 @@ jobs:
           LOGIN_IP: ${{ inputs.lan_ipad }}
           LOGIN_PWD: ${{ inputs.login_pwd }}
           TEMP_PREFIX: ${{ env.EXTRA_STR }}
+          # 指向 openwrt 预设目录
           DEPLOY_DIR: ${{ env.EXTRA_STR }}/preset-openwrt
           TRANSIT_PY: ${{ env.EXTRA_STR }}/extra-files/transit.py
         run: |
@@ -118,6 +124,7 @@ jobs:
 
       - name: Update feeds
         run: |
+          # 这里的脚本会自动识别 1.clone.sh 里添加的 src-link
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
