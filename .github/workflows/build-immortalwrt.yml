@@ -7,7 +7,7 @@
 #
 # Fixed "No space left on device" by AI
 #
-name: Build Redmi AX6000 (Space Optimized)
+name: Build Redmi AX6000 (immortalwrt)
 
 on:
   workflow_dispatch:
