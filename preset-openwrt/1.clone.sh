@@ -26,11 +26,23 @@ echo "src-link supply $PWD/$SUPPLY_DIR" >> feeds.conf.default
 mkdir $SUPPLY_DIR && cd $SUPPLY_DIR
 git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git
 git clone --depth 1 https://github.com/jerrykuku/luci-app-argon-config.git
-git clone --depth 1 https://github.com/sbwml/luci-app-alist.git
+
+# 没用到 Alist 可以注释掉
+# git clone --depth 1 https://github.com/sbwml/luci-app-alist.git
+
+# Passwall 核心依赖，必须保留
 git clone --depth 1 https://github.com/yichya/luci-app-xray.git && mv luci-app-xray/core luci-app-xray-core && mv luci-app-xray/status luci-app-xray-status && rm -rf luci-app-xray
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall-packages.git pw-dependencies
 git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall.git && mv openwrt-passwall/luci-app-passwall ./ && rm -rf openwrt-passwall
-git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2.git && mv openwrt-passwall2/luci-app-passwall2 ./ && rm -rf openwrt-passwall2
-git clone --depth 1 https://github.com/vernesong/OpenClash.git && mv OpenClash/luci-app-openclash ./ && rm -rf OpenClash
-git clone --depth 1 https://github.com/gdy666/luci-app-lucky.git
-git clone --depth 1 https://github.com/Thaolga/openwrt-nekobox.git
+
+# 你没用 Passwall2，注释掉省空间
+# git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall2.git && mv openwrt-passwall2/luci-app-passwall2 ./ && rm -rf openwrt-passwall2
+
+# 你没用 OpenClash，这个超级大，务必注释掉！
+# git clone --depth 1 https://github.com/vernesong/OpenClash.git && mv OpenClash/luci-app-openclash ./ && rm -rf OpenClash
+
+# 你没用 Lucky，注释掉
+# git clone --depth 1 https://github.com/gdy666/luci-app-lucky.git
+
+# 你没用 Nekobox，注释掉
+# git clone --depth 1 https://github.com/Thaolga/openwrt-nekobox.git
