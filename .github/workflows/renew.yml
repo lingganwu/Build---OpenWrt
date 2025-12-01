@@ -10,9 +10,9 @@ on:
         default: 'preset-lede'
       dotconfig:
         description: '<serial>.config file(s)'
-        required: true 
+        required: true
         type: string
-        default: '1.config, 2.config'
+        default: '2.config'
 
 permissions:
   contents: write
